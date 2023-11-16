@@ -19,7 +19,7 @@ for i = 1:length(tspan)
     B_augmented = [B_t; zeros(size(J, 1), 1)];
     
     % i should use icare will update 
-    P_t = icare(A_augmented, B_augmented, Q, R);
+    P_t = care(A_augmented, B_augmented, Q, R);
     
     K_t = -B_augmented' * P_t;
     
