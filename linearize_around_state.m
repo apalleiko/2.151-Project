@@ -9,15 +9,7 @@ function [A,B] = linearize_around_state(M,C,B,g,q,u)
     
     % returns A,B matrices for statespace equations of x = [q, q_dot] and
     % u = [torques]
-    q_ddot = simplify(inv(M)*(tg + B*u - C*q_dot));
-
-    n = size(q); % n joint states
-    assert(n == size(u)); % should be n control torques
-    A_lin = zeros(2*n);
-    B_lin = zeros(2*n,n);
-
-    A_lin(1:n,n+1:end) = eye(n); % d/dt of q is q_dot
-    A
+    
 
 
 end
