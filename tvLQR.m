@@ -5,6 +5,7 @@ function K_t = tvLQR(A,B,Q,R)
 forwardKinematics = @(x) [cos(x), -sin(x); sin(x), cos(x)];  
 
 tspan = linspace(0, 1, 100);  
+K_t = zeros(size(tspan,2),1);
 
 for i = 1:length(tspan)
     t = tspan(i);
@@ -19,9 +20,9 @@ for i = 1:length(tspan)
     B_augmented = [B_t; zeros(size(J, 1), 1)];
     
     % i should use icare will update 
-    P_t = icare(A_augmented, B_augmented, Q, R);
+    P_t = care(A_augmented, B_augmented, Q, R);
     
-    K_t = -B_augmented' * P_t;
+    K_t[i] = -B_augmented' * P_t;
     
 end
 end
