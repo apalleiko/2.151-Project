@@ -3,7 +3,7 @@ function K = tvLQR(A, B, Q, R, tspan)
     % tspan is the time vector
     
     % Initialize the gains
-    K = zeros(size(tspan));
+    K = zeros(2,size(tspan,2));
 
     % Solve LQR for each time step
     for i = 1:length(tspan)
@@ -16,16 +16,17 @@ function K = tvLQR(A, B, Q, R, tspan)
         Ri = R(t);
 
         % Solve LQR for the current time step
-        [K_i, ~, ~] = lqr(Ai, Bi, Qi, Ri);
+        % [K_i, ~, ~] = lqr(Ai, Bi, Qi, Ri);
+        % disp(K_i)
 
         % different ways to do lqr
         % P = Q + A' * P * A - A' * P * B * inv(R + B' * P * B) * B' * P * A
-        % [X,K,L] = icare(A,B,Q,R,[],[],[])
+        [~,K_i,~] = icare(Ai,Bi,Qi,Ri,[],[],[]);
 
         % Compute feedback matrix K
         % K_i = inv(R + B' * P * B) * B' * P * A
 
         % Save the calculated gain for the current time step
-        K(i) = K_i;
+        K(:,i) = K_i';
     end
 end
