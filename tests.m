@@ -34,20 +34,24 @@ k = @(t) 2 + 0.3*sin(2*t);  % Spring constant varying with time
 % State-space matrices
 A = @(t) [0 1; -1*k(t)/m(t) -1*c(t)/m(t)];
 B = @(t) [0; 1/m(t)];
+C = @(t) [0 1];
 
 Q = @(t) [1/0.1^2 0;0 0];
 R = @(t) 1;
+tspan = [0, 100];
+[Wc,Wo] = WcWo(A,B,C,tspan);
+
 % C = @(t) eye(2);
 % D = zeros(2, 1);
-tspan = (0:.1:1);
-K = tvLQR(A, B, Q, R, tspan);
+% tspan = (0:.1:1);
 % K = tvLQR(A, B, Q, R, tspan);
-for i = 1:length(tspan)
-        t = tspan(i);
-        % pole(ss(A(t),B(t),[1 0],0))
-        pzmap(ss(A(t),B(t),[1 0],0))
-        hold on
-end
+% % K = tvLQR(A, B, Q, R, tspan);
+% for i = 1:length(tspan)
+%         t = tspan(i);
+%         % pole(ss(A(t),B(t),[1 0],0))
+%         pzmap(ss(A(t),B(t),[1 0],0))
+%         hold on
+% end
 function springDamperSystem
     m = 1;      
     k0 = 1;     
