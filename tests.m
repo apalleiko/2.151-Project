@@ -39,10 +39,15 @@ Q = @(t) [1/0.1^2 0;0 0];
 R = @(t) 1;
 % C = @(t) eye(2);
 % D = zeros(2, 1);
-tspan = (0:.01:10);
+tspan = (0:.1:1);
 K = tvLQR(A, B, Q, R, tspan);
 % K = tvLQR(A, B, Q, R, tspan);
-
+for i = 1:length(tspan)
+        t = tspan(i);
+        % pole(ss(A(t),B(t),[1 0],0))
+        pzmap(ss(A(t),B(t),[1 0],0))
+        hold on
+end
 function springDamperSystem
     m = 1;      
     k0 = 1;     
