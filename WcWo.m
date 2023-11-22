@@ -3,6 +3,7 @@ function [Wc,Wo] = WcWo(A,B,C,t_span)
 % Define the state transition matrix integrator
 % this needs to be checked
 Phi_integrator = @(t) expm(A(t)*(t_span(2) - t));
+% Phi_integrator = @(t) integral(expm(A(t)), t_span(1), t, 'ArrayValued', true);
 
 
 % Define the controllability Gramian integrator

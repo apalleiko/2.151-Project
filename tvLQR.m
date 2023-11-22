@@ -28,6 +28,7 @@ function K = tvLQR(A, B, Q, R, q, u, tspan)
         % disp(K_i)
 
         % different ways to do lqr
+        % P = None
         % P = Q + A' * P * A - A' * P * B * inv(R + B' * P * B) * B' * P * A
         [~,K_i,~] = icare(Ai,Bi,Qi,Ri,[],[],[]);
 
