@@ -1,4 +1,4 @@
-function [A,B,dq,du] = linearize_around_state(M,C,B,tg,q,u)
+function [A,B,dq,du] = linearize_around_state(q_ddot,q,u)
     % Linearize manipulator equations around nominal joint positions q(t) 
     % and inputs u(t). Assumes constants (like mass, length, gravity) are
     % plugged in
@@ -19,9 +19,6 @@ function [A,B,dq,du] = linearize_around_state(M,C,B,tg,q,u)
     
     syms t
     q_dot = diff(q,t);
-    % M(q)*q_ddot+C(q,q_dot)*q_dot = B*u + g(q)
-    % Solve for symbolic nonlinear q_ddot
-    q_ddot = simplify(inv(M)*(tg + B*u - C*q_dot));
     
     dq = sym('dq_%d',[n,1]);
     for i=1:n
@@ -97,7 +94,8 @@ function [A,B,dq,du] = linearize_around_state(M,C,B,tg,q,u)
     % to the coefficients 
     A_lin(n+1:end,1:n) = q_coeffs;
     B_lin(n+1:end,:) = u_coeffs;
-
+    
+    % A,B functions of q(t), u(t)
     A = simplify(subs(A_lin,[q_time_inv;u_time_inv],[q;u]));
     B = simplify(subs(B_lin,[q_time_inv;u_time_inv],[q;u]));
 end
