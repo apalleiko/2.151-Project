@@ -19,7 +19,7 @@ function [A,B,dq,du] = linearize_around_state(q_ddot,q,u)
     
     syms t
     q_dot = diff(q,t);
-    
+
     dq = sym('dq_%d',[n,1]);
     for i=1:n
         dq_i = sym(['dq_',int2str(i)]);
