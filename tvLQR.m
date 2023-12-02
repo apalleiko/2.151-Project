@@ -2,9 +2,7 @@ function K = tvLQR(A, B, Q, R, q, u, tspan)
 
 intg_tspan = flip(tspan);
 s0 = reshape(S_tf,[],1);
-% t = linspace(tspan(1),tspan(2),100);
-% intg_tspan = [t(end) t(1)];
-% intg_tspan = [10 20];
+
 options = odeset('RelTol',1e-8,'AbsTol',1e-8);
 
 inFun=@(t,s) matOde(t,s,A,B,Q,R);
@@ -37,7 +35,7 @@ end
 function dx = matOde(t,x,A,B,Q,R)
 n = sqrt(size(x,1));
 S = reshape(x,n,n);
-S_dot =@(t,S) -(S*A(t) + A(t)'*S - S*B(t)*(R(t)\B(t)'*S) + Q(t));
+S_dot =@(t,S) -(S*A(t) + A(t)'*S - S*B(t)*(R(t)\(B(t)'*S)) + Q(t));
 S_dot_mat = S_dot(t,S);
 dx = reshape(S_dot_mat,[],1);
 end
