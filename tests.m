@@ -1,5 +1,15 @@
 % springDamperSystem
 clear;
+
+A = @(t) [cos(t), -sin(t); sin(t), cos(t)];  
+B = @(t) [1; t];                            
+Q = @(t) eye(2);                            
+R = @(t) 1 + sin(t);                         
+S_tf = [1, 0; 0, 1]; 
+tspan = [10 20];
+
+K = tvLQR(A, B, Q, R, S_tf, tspan);
+
 ltvSys = ltvss(@LTV);
 x0 = [1;0];
 
