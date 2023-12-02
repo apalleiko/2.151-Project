@@ -1,4 +1,4 @@
-function K = tvLQR(A, B, Q, R, q, u, tspan)
+function K = tvLQR(A, B, Q, R, S_tf, tspan)
 
 intg_tspan = flip(tspan);
 s0 = reshape(S_tf,[],1);
