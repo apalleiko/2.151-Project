@@ -7,6 +7,8 @@ view(90,0)
 while true
     for i = 1:count
         show(robot,q(:,i),'PreservePlot',false);
+        xlim([-.01,.01])
+        view(90,0)
         drawnow
         pause(rate);
     end

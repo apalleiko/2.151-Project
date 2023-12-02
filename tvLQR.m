@@ -1,4 +1,4 @@
-function K = tvLQR(A, B, Q, R, S_tf, tspan)
+function [time,K] = tvLQR(A, B, Q, R, S_tf, tspan)
 
 intg_tspan = flip(tspan);
 s0 = reshape(S_tf,[],1);
@@ -8,7 +8,7 @@ options = odeset('RelTol',1e-8,'AbsTol',1e-8);
 inFun=@(t,s) matOde(t,s,A,B,Q,R);
 
 sol = ode45(inFun,intg_tspan,s0,options);
-K = zeros(size(Q(0),1),length(sol.x));
+K = zeros(size(Q(0),1),size(R(0),1),length(sol.x));
 
 % Solve LQR for each time step
 for i = 1:length(sol.x)
@@ -29,9 +29,11 @@ for i = 1:length(sol.x)
     % [~,K_i,~] = icare(Ai,Bi,Qi,Ri,[],[],[]);
 
     % Save the calculated gain for the current time step
-    K(:,i) = K_i';
+    K(:,:,i) = K_i';
 end
+time = sol.x;
 end
+
 function dx = matOde(t,x,A,B,Q,R)
 n = sqrt(size(x,1));
 S = reshape(x,n,n);
