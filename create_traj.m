@@ -19,4 +19,3 @@ tvec = 0:r:tf;
 % Just use a simple cubic polynomical trajectory solver
 [q, qd, qdd, pp] = cubicpolytraj(solns, tpts, tvec);
 end
-
