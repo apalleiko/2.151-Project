@@ -1,4 +1,4 @@
-function [q,qd,qdd,pp] = create_traj(robot,weights,wpts,tpts,r,initial_pose)
+function [q,qd,qdd,pp] = create_cubic_traj(robot,weights,wpts,tpts,r,initial_pose)
 %CREATE_TRAJ Create trajectory for a robot, given waypoints
 ik = inverseKinematics('RigidBodyTree',robot);
 

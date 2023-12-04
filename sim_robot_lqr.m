@@ -1,22 +1,26 @@
-function [t,x] = sim_robot_lqr(robot,Kt,q_traj,x0,tspan)
+function [t,x] = sim_robot_lqr(robot,Kt,q_traj,u_traj,x0,tspan,options)
 % simulate the nonlinear response of a robot to given inputs
-[t,x] = ode45(@(t,x) robot_dynamics(t,x,Kt,q_traj,robot),tspan,x0);
+[t,x] = ode45(@(t,x) robot_dynamics(t,x,Kt,q_traj,u_traj,robot),tspan,x0,options);
 end
 
-function dxdt = robot_dynamics(t,x,Kt,q_traj,robot)
+function dxdt = robot_dynamics(t,x,Kt,q_traj,u_traj,robot)
 % x is current state, u is function of time
 n = length(x)/2; % number of states
 q = x(1:n); % get current configuration of the robot
 q_dot = x(n+1:end); % get current velocities of the robot
-M = massMatrix(robot,q);
-C = velocityProduct(robot,q,q_dot);
-G = gravityTorque(robot,q);
 % Assume F_ext is zero
 q0_t = q_traj(t);
-x0_t = [q0_t; 0; 0];
 K_t = Kt(t);
-tau = double(K_t*(x-x0_t));
-q_ddot = M\(-C-G+tau);
+u_t = double(u_traj(t));
+if length(q0_t) == n % This means no velocity in q_traj
+    K_t(:,n+1:end) = 0; % Disregards velocity differences
+    dx = (x-[q0_t;0;0]);
+elseif length(q0_t) == 2*n
+    dx = (x-q0_t);
+end
+G = double(-K_t*dx);
+tau = u_t + G;
+q_ddot = forwardDynamics(robot,q,q_dot,tau,[]);
 
 dxdt = [q_dot; q_ddot];
 end

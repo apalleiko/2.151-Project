@@ -53,7 +53,9 @@ for idx=1:nSoln
     zNow = z(:,i);
     tNow = t(i);
     S = reshape(zNow,nState,nState);
-    [A,B] = linSys(tNow);
+    out = linSys(tNow);
+    A = out(:,1:nState);
+    B = out(:,nState+1:end);
     K = R\(B'*S);
     Soln(i).t = tNow;
     Soln(i).K = K;
@@ -65,7 +67,9 @@ end
 
 function dz = rhs(t,z,linSys,Q,R,nState)
 P = reshape(z,nState,nState);
-[A,B] = linSys(t);
+out = linSys(t);
+A = out(:,1:nState);
+B = out(:,nState+1:end);
 dP = ricatti(A,B,Q,R,P);
 dz = reshape(dP,nState*nState,1);
 end

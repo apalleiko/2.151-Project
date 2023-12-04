@@ -1,4 +1,4 @@
-function [q_ddot, q, u, vars] = robot_arm_dynamics()
+function [q_ddot, dq, q, u, vars] = robot_arm_dynamics()
     
     % Define joint states and inputs
     syms m L t g theta1(t) theta2(t) tau1(t) tau2(t)
