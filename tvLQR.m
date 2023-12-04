@@ -3,7 +3,7 @@ function [time,K] = tvLQR(A, B, Q, R, S_tf, tspan)
 intg_tspan = flip(tspan);
 s0 = reshape(S_tf,[],1);
 
-options = odeset('RelTol',1e-8,'AbsTol',1e-8);
+options = odeset('RelTol',1e-4,'AbsTol',1e-6);
 
 inFun=@(t,s) matOde(t,s,A,B,Q,R);
 
