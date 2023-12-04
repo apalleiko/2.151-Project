@@ -18,7 +18,7 @@ if length(q0_t) == n % This means no velocity in q_traj
 elseif length(q0_t) == 2*n
     dx = (x-q0_t);
 end
-G = double(-K_t*dx);
+G = double(K_t*dx);
 tau = u_t + G;
 q_ddot = forwardDynamics(robot,q,q_dot,tau,[]);
 
