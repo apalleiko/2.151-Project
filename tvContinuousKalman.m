@@ -2,7 +2,7 @@ function [time,L] = tvContinuousKalman(A, C, V, W, P_0, tspan)
 
 p0 = reshape(P_0,[],1);
 
-options = odeset('RelTol',1e-4,'AbsTol',1e-6);
+options = odeset('RelTol',1e-3,'AbsTol',1e-4);
 
 inFun=@(t,p) matOde(t,p,A,C,V,W);
 
@@ -24,7 +24,7 @@ for i = 1:length(sol.x)
     P = reshape(sol.y(:,i),size(Ai,1),size(Ai,1));
 
     % Compute feedback matrix L
-    L_i = P*Ci\Wi;
+    L_i = P*Ci'*inv(Wi);
 
     % Save the calculated gain for the current time step
     L(:,:,i) = L_i;
@@ -33,6 +33,7 @@ time = sol.x;
 end
 
 function dx = matOde(t,x,A,C,V,W)
+% t
 n = sqrt(size(x,1));
 P = reshape(x,n,n);
 P_dot = @(t,P) A(t)*P + P*A(t)' - P*C(t)'*(W(t)\(C(t)*P)) + V(t);
