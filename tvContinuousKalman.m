@@ -12,8 +12,8 @@ sol = ode45(inFun,tspan,p0,options);
 L = zeros(size(A(0),1),size(C(0),1),length(sol.x));
 
 % Solve Kalman Gains for each time step
-for Vi = 1:length(sol.x)
-    t = sol.x(Vi);
+for i = 1:length(sol.x)
+    t = sol.x(i);
 
     % Extract time-varying matrices at time t
     Ai = A(t);
@@ -21,13 +21,13 @@ for Vi = 1:length(sol.x)
     Vi = V(t);
     Wi = W(t);
 
-    P = reshape(sol.y(:,Vi),size(Ai,1),size(Ai,1));
+    P = reshape(sol.y(:,i),size(Ai,1),size(Ai,1));
 
     % Compute feedback matrix L
     L_i = P*Ci\Wi;
 
     % Save the calculated gain for the current time step
-    L(:,:,Vi) = L_i;
+    L(:,:,i) = L_i;
 end
 time = sol.x;
 end
