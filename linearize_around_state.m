@@ -5,12 +5,9 @@ function [A,B,dq,du] = linearize_around_state(q_ddot,q,u)
 
     % q(t) should be a function of joint states as a function of time, eg.
     % [theta_1(t); theta_2(t),...] and u(t) should be a set of reference
-    % inputs over time (could be zero?)
+    % inputs over time (could be zero)
 
     % See test_functions.mlx for an example
-
-    % This function assumes that M, C, B, and g are symbolic functions of
-    % q(t):  M(q)*q_ddot+C(q,q_dot)*q_dot = B*u + g(q)
     
     % returns A,B matrices for statespace equations of x = [q, q_dot] and
     % u = [torques]
