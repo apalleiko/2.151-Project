@@ -2,7 +2,7 @@ function [time,L] = tvContinuousKalman(A, C, V, W, P_0, tspan)
 
 p0 = reshape(P_0,[],1);
 
-options = odeset('RelTol',1e-3,'AbsTol',1e-4);
+options = odeset('RelTol',1e-3,'AbsTol',1e-5);
 
 inFun=@(t,p) matOde(t,p,A,C,V,W);
 
@@ -33,7 +33,6 @@ time = sol.x;
 end
 
 function dx = matOde(t,x,A,C,V,W)
-% t
 n = sqrt(size(x,1));
 P = reshape(x,n,n);
 P_dot = @(t,P) A(t)*P + P*A(t)' - P*C(t)'*(W(t)\(C(t)*P)) + V(t);
