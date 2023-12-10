@@ -35,6 +35,7 @@ time = sol.x;
 end
 
 function dx = matOde(t,x,A,B,Q,R)
+% t
 n = sqrt(size(x,1));
 S = reshape(x,n,n);
 S_dot =@(t,S) -(S*A(t) + A(t)'*S - S*B(t)*(R(t)\(B(t)'*S)) + Q(t));

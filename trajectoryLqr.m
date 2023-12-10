@@ -66,6 +66,7 @@ end
 end
 
 function dz = rhs(t,z,linSys,Q,R,nState)
+% t
 P = reshape(z,nState,nState);
 out = linSys(t);
 A = out(:,1:nState);
